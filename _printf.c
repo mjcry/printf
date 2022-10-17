@@ -1,86 +1,71 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stdio.h>
 
 /**
- *check_format - checks if there is a valid format specifier
- *@format: possible valid format specifier
- *Return: pointer to valid function or NULL
- */
+  * get_func - pointer to array
+  * @conv_spec: specifiers
+  * Return: function that is pointed to
+  */
 
-int (*check_format(const char *format))(va_list)
+int (*get_func(char conv_spec))(va_list)
 {
-	int i = 0;
-	print_t p[] = {
-		{"c", print_c},
-		{"s", print_s},
-		{"i", print_i},
-		{"d", print_d},
-		{"b", print_b},
-		{"u", print_u},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
-		{"p", print_p},
-		{"S", print_S},
-		{"r", print_r},
-		{"R", print_R},
+	int j;
+
+	printer_t funct[] = {
+		{"i", print_nums},
+		{"c", conv_c},
+		{"s", conv_s},
+		{"d", print_nums},
 		{NULL, NULL}
 	};
-
-	for (i=0; p[i].type != NULL; i++)
+	for (j = 0; funct[j].spec[0] != conv_spec; j++)
 	{
-		if (*(p[i].type) == *format)
-			break;
+		if (funct[j].spec == NULL)
+			return (NULL);
 	}
-	return (p[i].function);
+	return (funct[j].func);
 }
-
 /**
- *_printf - function for format printing
- *@format: list of arguments to printing
- *Return: Number of characters to printing
+ * _printf - print strings and chars to stdout
+ * @format: specifier to print
+ * Return: number of characters printed
  */
-
 int _printf(const char *format, ...)
 {
-	va_list name;
-	int (*function)(va_list);
-	unsigned int i = 0, counter = 0;
+	unsigned int i = 0;
+	int counter = 0;
+	va_list arg;
+	int (*point)(va_list);
 
+	va_start(arg, format);
 	if (format == NULL)
 		return (-1);
-
-	va_start(name, format);
-	while (format && format[i])
+	while (format[i] != '\0')
 	{
-		if (format[i] != '%')
+		for (i = i; format[i] != '%'; i++)
 		{
+			if (format[i] == '\0')
+				return (counter);
 			_putchar(format[i]);
 			counter++;
-			i++;
-			continue;
 		}
-		else
+		if (format[i + 1] == '%')
 		{
-			if (format[i + 1] == '%')
+			_putchar('%'), counter++, i += 2;
+		continue;
+		}
+		if (format[i] == '%')
+		{
+			i = i + 1;
+			point = get_func(format[i]);
+			if (point == NULL)
 			{
 				_putchar('%');
-				counter++;
-				i += 2;
-				continue;
+				_putchar(format[i]);
 			}
 			else
-			{
-				function = check_format(&format[i + 1]);
-				if (function == NULL)
-					return (-1);
-				i += 2;
-				counter += function(name);
-				continue;
-			}
+				counter += point(arg);
+			i = i + 1;
 		}
 	}
-	va_end(name);
 	return (counter);
 }
