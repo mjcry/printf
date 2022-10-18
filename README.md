@@ -1,21 +1,37 @@
-Written by Sarah McGowan and Brandon Brown, Cohort 18
+This repository is a project during the first year of Holberton School.
 
-Purpose We are writing a function that produces output according to a format, using the format specifiers %s, %c, %d, and %i.
+It is to be done in duo and consists in recoding the famous printf function.
 
-Our general guidelines
+_printf
+Description
+The function _printf is a variadic function which prints a string according to a format to the standard output like the function printf.
 
-Use the prototype: *int _printf(const char _format, ...);
-Print all of format to std output and handle the conversion specifiers: "c", "s", "%", "d", and "i"
-Returns the number of characters printed
-written in vi, vim, or emacs
-compiled with the following gcc -Wall -Wextra -Werror -pedantic -std=gnu89 -Wno-format *.c
-No more than five functions per file
-Using the function The end user of _printf() will be able to print their inputted format string, and have the use of format specifiers reserve space for the value variable types character, string, decimal, and integer.
+Prototype
+int _printf(const char *format, ...);
 
-Example:
+Conversion specifiers
+Specifiers	Description
+%c	Prints a single character
+%s	Prints a string of characters
+%d	Prints a decimal number
+%i	Prints an integer
+%u	Prints an unsigned int
+%b	Convert a decimal number to binary and prints it
+%o	Convert a decimal number to octal and prints it
+%x	Convert a decimal number to hexadecimal and prints it in lowercase
+%X	Convert a decimal number to hexadecimal and prints it in uppercase
+Compile
+The commande to compile your files is : gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c
 
-char c = 'x';
-char *s = "betty is rad";
-int i = 7;
+Examples
+_printf("%c", 't'); => prints the character 't'
 
-_printf("I have a char: %c, a string
+_printf("%s", "Holberton"); => prints the string "Holberton"
+
+_printf("%d", -15627382); => prints the decimal number "-15627382"
+
+_printf("%b\n", 157); => converts the decimal number "157" in binary and prints the resultat "10011101" followed by a new line 
+
+credits to:
+Masilo Kgobodi 
+

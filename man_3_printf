@@ -1,12 +1,83 @@
-.TH man 8 "04 July 2022" "1.0" "_printf man page"
+.TH _PRINTF(1)
+
 .SH NAME
-_printf - create a copy of the standard printf function
+_printf - copy of printf
+
 .SH SYNOPSIS
-_printf Format [ARGUMENT]
+.B #include "main.h"
+
+.B int _printf(const char *format, ...);
+
 .SH DESCRIPTION
- Prints argument(s) using the format string. The format string is comprised of 0 or more directives. Each conversion specifer is introduced by the "%" character. The specifer uses the corresponding argument(s) to print the variable.
-.SH OPTIONS
+The function _printf is a variadic function. It prints to the standard ouput a string according to a format like the function printf.
+It can received variable number of arguments.
+
+.SH Conversion specifiers
+A character that specifies the type of conversion to be applied. Add the character '%' before the letter. The conversion specifiers and their meanings are :
+
+.TP
+.B
+d, i
+The int argument is converted to signed decimal notation, positive or negative.
+
+.TP
+.B
+b
+The unsigned int argument is converted to binary. Prints a number in binary.
+
+.TP
+.B
+o
+Prints a number in octal.
+
+.TP
+.B
+u
+Prints unsigned int.
+
+.TP
+.B
+x, X
+Prints respecively a number in lowercase and uppercase hexadecimal.
+
+
+.TP
+.B
+c
+The int argument is converted to an unsigned char, prints a single character.
+
+.TP
+.B
+s
+The const char* argument is expected to be a pointer to an array of character type (pointer to a string). It prints the strings without the character null byte.
+
+.TP
+.B
+%
+No argument is printed, just "%".
+
+.SH RETURN VALUE
+On success, the function returns the number of character printed.
+
+If there are errors or if the format is NULL, it returns -1.
+
+.SH EXAMPLES
+.B _printf("%c", 't');
+=> prints the character 't'
+
+.B _printf("%s", "Holberton");
+=> prints the string "Holberton"
+
+.B _printf("%d", -15627382);
+=> prints the decimal number "-15627382"
+
+.B _printf("%b\n", 157);
+=> converts the decimal number "157" in binary and prints the resultat "10011101" followed by a new line
 
 .SH BUGS
-No known bugs.
-.SH AUTHOR
+None known at this time.
+
+.SH SEE ALSO
+printf(3)
+
+_putchar.c
